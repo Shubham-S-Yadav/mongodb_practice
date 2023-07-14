@@ -1,0 +1,19 @@
+In db sample_mflix, collection movies, find the decade (1960, 1970, 1980, etc...)
+ in which the most movies were released...
+
+db.getCollection('movies').aggregate(
+  [
+    {
+      $bucket: {
+        groupBy: '$year',
+        boundaries: [
+          1960, 1970, 1980, 1990, 2000, 2010, 2020
+        ],
+        default: 'outlier'
+      }
+    },
+    { $sort: { count: -1 } },
+    { $limit: 1 }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);

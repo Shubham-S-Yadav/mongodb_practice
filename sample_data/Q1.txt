@@ -1,0 +1,9 @@
+//In db sample_mflix, collection movies, find the unique countries.
+
+db.getCollection('movies').aggregate(
+  [
+    { $unwind: { path: '$countries' } },
+    { $group: { _id: '$countries' } }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);

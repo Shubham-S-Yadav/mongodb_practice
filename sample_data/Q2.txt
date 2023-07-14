@@ -1,0 +1,15 @@
+In db sample_mflix, collection movies, find the unique genres for country France
+
+db.getCollection('movies').aggregate(
+  [
+    { $match: { countries: 'France' } },
+    {
+      $unwind: {
+        path: '$genres',
+        preserveNullAndEmptyArrays: false
+      }
+    },
+    { $group: { _id: '$genres' } }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
